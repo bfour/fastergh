@@ -1,5 +1,11 @@
+import { execFile } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { $ } from "bun";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
+const opencode = async (args: Array<string>) =>
+	(await execFileAsync("opencode", args, { maxBuffer: 64 * 1024 * 1024 }))
+		.stdout;
 
 const STOP_TOKEN = "<I HAVE COMPLETED THE TASK>";
 const PLAN_PATH = "./PLAN.md";
@@ -59,12 +65,19 @@ async function run(goal: string, model: Model, maxIterations: number) {
 	let output = "";
 	let iteration = 1;
 	while (!output.includes(STOP_TOKEN) && iteration <= maxIterations) {
-		const command =
+		output = await opencode(
 			iteration === 1
-				? $`opencode run --attach ${ATTACH_URL} --model ${model} ${prompt}`
-				: $`opencode run --attach ${ATTACH_URL} --model ${model} --continue ${prompt}`;
-
-		output = await command.text();
+				? ["run", "--attach", ATTACH_URL, "--model", model, prompt]
+				: [
+						"run",
+						"--attach",
+						ATTACH_URL,
+						"--model",
+						model,
+						"--continue",
+						prompt,
+					],
+		);
 		iteration += 1;
 	}
 
@@ -74,7 +87,7 @@ async function run(goal: string, model: Model, maxIterations: number) {
 		);
 	}
 
-	await $`opencode run ${"Make a git commit of your changes, do not push"}`;
+	await opencode(["run", "Make a git commit of your changes, do not push"]);
 }
 
 const planContents = readFileSync(PLAN_PATH, "utf-8");

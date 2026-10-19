@@ -12,39 +12,39 @@ It defines build/test/lint commands, style conventions, and repository-specific 
 
 ## Workspace basics
 
-- Package manager: `bun` only.
+- Package manager: `pnpm` only.
 - Monorepo task runner: `turbo`.
 - Lint/format tool: `biome`.
 - Main technologies: Effect, Convex, Confect, Next.js 16, React 19, Vitest.
 
 ## Common commands (repo root)
 
-- Install deps: `bun install`
-- Dev (all packages): `bun dev`
-- Build all: `bun run build`
-- Typecheck (fast, preferred): `bun run typecheck`
-- Typecheck (slow): `bun run typecheck:slow`
-- Lint: `bun run lint`
-- Lint + auto-fix: `bun run lint:fix`
-- Test all (except `@packages/convex-test`): `bun run test`
-- CI equivalent: `bun run ci`
+- Install deps: `pnpm install`
+- Dev (all packages): `pnpm dev`
+- Build all: `pnpm run build`
+- Typecheck (fast, preferred): `pnpm run typecheck`
+- Typecheck (slow): `pnpm run typecheck:slow`
+- Lint: `pnpm run lint`
+- Lint + auto-fix: `pnpm run lint:fix`
+- Test all (except `@packages/convex-test`): `pnpm run test`
+- CI equivalent: `pnpm run ci`
 
 ## Running tests (including single tests)
 
-Use Vitest args after `bun run test` in the target package.
+Use Vitest args after `pnpm run test` in the target package.
 
-- Single file (generic): `bun run test path/to/file.test.ts`
-- Single test by name: `bun run test -t "test name"`
-- Watch mode: `bun run test:watch`
+- Single file (generic): `pnpm run test path/to/file.test.ts`
+- Single test by name: `pnpm run test -t "test name"`
+- Watch mode: `pnpm run test:watch`
 
 From repo root with workspace filter:
 
-- Database file: `bun --filter @packages/database run test githubMirror.test.ts`
-- UI file: `bun --filter @packages/ui run test src/components/command.test.tsx`
-- Main site file: `bun --filter @packages/main-site run test src/app/(main-site)/_components/search-command-dsl.test.ts`
-- Confect file: `bun --filter @packages/confect run test src/rpc/server.test.ts`
-- Observability file: `bun --filter @packages/observability run test src/json-exporter.test.ts`
-- Convex-test file: `bun --filter @packages/convex-test run test convex/actions.test.ts`
+- Database file: `pnpm --filter @packages/database run test githubMirror.test.ts`
+- UI file: `pnpm --filter @packages/ui run test src/components/command.test.tsx`
+- Main site file: `pnpm --filter @packages/main-site run test src/app/(main-site)/_components/search-command-dsl.test.ts`
+- Confect file: `pnpm --filter @packages/confect run test src/rpc/server.test.ts`
+- Observability file: `pnpm --filter @packages/observability run test src/json-exporter.test.ts`
+- Convex-test file: `pnpm --filter @packages/convex-test run test convex/actions.test.ts`
 
 ## Formatting and linting
 
@@ -130,7 +130,7 @@ From repo root with workspace filter:
 
 Cursor rule files currently present:
 
-- `.cursor/rules/always-use-bun.mdc`
+- `.cursor/rules/always-use-pnpm.mdc`
 - `.cursor/rules/bash-powers.mdc`
 - `.cursor/rules/clone-repos-to-tmp.mdc`
 - `.cursor/rules/command-timeout.mdc`
@@ -153,7 +153,7 @@ Cursor rule files currently present:
 
 ## Key Cursor rule themes captured here
 
-- Bun-only workflows.
+- pnpm-only workflows.
 - Strict TS safety (no `any`/`unknown`/casts).
 - Effect-first primitives and DI via `yield*`.
 - Convex schema/function/index validation discipline.

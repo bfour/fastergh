@@ -128,8 +128,9 @@ const deploySchemaAndFunctions = (adminKey: string) => {
 
 	for (let attempt = 1; attempt <= DEPLOY_RETRY_ATTEMPTS; attempt += 1) {
 		const result = runCommand(
-			"bunx",
+			"pnpm",
 			[
+				"exec",
 				"convex",
 				"dev",
 				"--once",

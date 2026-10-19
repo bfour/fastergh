@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+
+Always use `pnpm` for package management:
+- `pnpm install` (not npm/yarn/bun install)
+- `pnpm run <script>` (not npm run/yarn/bun run)
+- `pnpm exec` for local binaries and `pnpm dlx` for one-off packages (not npx/bunx)
+- Run standalone TypeScript scripts with `tsx` (e.g. `pnpm exec tsx scripts/foo.ts`)
+- Prefer `pnpm typecheck` over running `tsc` directly as it uses TypeScript Go and is faster

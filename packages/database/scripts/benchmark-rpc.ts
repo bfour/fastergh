@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S pnpm exec tsx
 /// <reference types="node" />
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../convex/_generated/api";

@@ -21,15 +21,15 @@ fi
 if [ "$SHOULD_DEPLOY_CONVEX" = true ]; then
     echo "Convex files changed, deploying..."
     echo "$CHANGED_FILES" | grep "^packages/database/convex/" | head -3
-    (cd ../../packages/database && npx convex deploy --cmd-url-env-var-name NEXT_PUBLIC_CONVEX_URL)
+    (cd ../../packages/database && pnpm exec convex deploy --cmd-url-env-var-name NEXT_PUBLIC_CONVEX_URL)
 else
     echo "No Convex changes detected, skipping deploy"
 fi
 
-bun run typecheck &
+pnpm run typecheck &
 P1=$!
 
-bun with-env next build &
+pnpm with-env next build &
 P2=$!
 
 wait $P1 || exit 1

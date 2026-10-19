@@ -1,10 +1,13 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S pnpm exec tsx
 
+import { execFile } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { $ } from "bun";
+import { promisify } from "node:util";
 
-const CONTEXT_DIR = join(import.meta.dir, "..", ".context");
+const execFileAsync = promisify(execFile);
+
+const CONTEXT_DIR = join(import.meta.dirname, "..", ".context");
 
 const REPOS = [
 	{ name: "effect", url: "https://github.com/Effect-TS/effect.git" },
@@ -54,7 +57,7 @@ async function main() {
 
 		console.log(`Cloning ${repo.name}...`);
 		try {
-			await $`git clone --depth 1 ${repo.url} ${repoPath}`.quiet();
+			await execFileAsync("git", ["clone", "--depth", "1", repo.url, repoPath]);
 			console.log(`✓ ${repo.name}`);
 		} catch (_error) {
 			console.error(`✗ ${repo.name} - failed to clone`);

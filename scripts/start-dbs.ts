@@ -1,14 +1,22 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S pnpm exec tsx
 
-import { $ } from "bun";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 
 const JAEGER_CONTAINER = "jaeger";
 
 async function isContainerRunning(containerName: string): Promise<boolean> {
 	try {
-		const result =
-			await $`docker ps --filter name=${containerName} --format {{.Names}}`.quiet();
-		return result.stdout.toString().trim() === containerName;
+		const result = await execFileAsync("docker", [
+			"ps",
+			"--filter",
+			`name=${containerName}`,
+			"--format",
+			"{{.Names}}",
+		]);
+		return result.stdout.trim() === containerName;
 	} catch {
 		return false;
 	}
@@ -24,7 +32,7 @@ async function startDockerServices(): Promise<void> {
 
 	console.log("Starting Docker services...");
 	try {
-		await $`docker compose up -d`.quiet();
+		await execFileAsync("docker", ["compose", "up", "-d"]);
 		console.log("✓ Docker services started");
 	} catch (error) {
 		throw new Error(
