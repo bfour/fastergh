@@ -72,7 +72,7 @@ packages/
 
 - [Node.js](https://nodejs.org) >= 22 and [pnpm](https://pnpm.io) 10 (`corepack enable`)
 - A [Convex](https://convex.dev) account
-- A GitHub PAT with `repo` scope (or `gh auth login`)
+- A GitHub account or organization where you can create a GitHub App
 
 ### Telemetry
 
@@ -86,59 +86,63 @@ export NEXT_TELEMETRY_DISABLED=1
 
 ### Setup
 
-1. Install dependencies:
+1. Install dependencies and create your env file:
 
 ```bash
 pnpm install
+cp .env.example .env
 ```
 
-2. Configure environment:
+2. Create a Convex deployment. This logs you in, creates the project and writes `CONVEX_DEPLOYMENT` to `packages/database/.env.local`; stop it with Ctrl+C once it's running:
 
 ```bash
-cp .env.example .env
-# Set GITHUB_WEBHOOK_SECRET (generate with: openssl rand -hex 32)
-# Set CONVEX_DEPLOYMENT and NEXT_PUBLIC_CONVEX_URL
+cd packages/database && pnpm exec convex dev
 ```
 
-3. Set Convex environment variables:
+Copy `CONVEX_DEPLOYMENT` and the deployment's `.convex.cloud` / `.convex.site` URLs into `CONVEX_DEPLOYMENT`, `CONVEX_URL`, `NEXT_PUBLIC_CONVEX_URL` and `CONVEX_SITE_URL` in the root `.env`.
+
+3. Create your own GitHub App at **GitHub → Settings → Developer settings → GitHub Apps → New GitHub App** (under the organization's settings for an org). One app handles both "Sign in with GitHub" and repository access:
+
+| Field | Value |
+| --- | --- |
+| Homepage URL | `http://localhost:4007` (your `SITE_URL`) |
+| Callback URL | `http://localhost:4007/api/auth/callback/github` |
+| Setup URL | `http://localhost:4007/github/setup` (tick "Redirect on update") |
+| Webhook URL | `https://<your-deployment>.convex.site/api/github/webhook` |
+| Webhook secret | output of `openssl rand -hex 32` |
+| Repository permissions | Read & write: Actions, Contents, Issues, Pull requests. Read-only: Checks, Metadata |
+| Subscribe to events | Check run, Create, Delete, Issue comment, Issues, Pull request, Pull request review, Push, Workflow job, Workflow run |
+
+Webhooks go to your Convex deployment, not to localhost, so this works during local development. After creating the app, note its slug (the last part of its URL), generate a client secret and a private key.
+
+4. Fill in the root `.env`: `GITHUB_APP_SLUG`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GITHUB_WEBHOOK_SECRET`, and `BETTER_AUTH_SECRET` (`openssl rand -base64 32`). If `GITHUB_APP_SLUG` is unset, the install button points at the public `fastergh` app, whose webhooks don't reach your deployment.
+
+5. Set the backend's environment variables in Convex:
 
 ```bash
 cd packages/database
-pnpm exec convex env set GITHUB_PAT "$(gh auth token)"
-pnpm exec convex env set GITHUB_WEBHOOK_SECRET "<your-webhook-secret>"
+pnpm exec convex env set SITE_URL "http://localhost:4007"
+pnpm exec convex env set CONVEX_SITE_URL "https://<your-deployment>.convex.site"
+pnpm exec convex env set GITHUB_CLIENT_ID "<client id>"
+pnpm exec convex env set GITHUB_CLIENT_SECRET "<client secret>"
+pnpm exec convex env set GITHUB_WEBHOOK_SECRET "<webhook secret>"
+pnpm exec convex env set GITHUB_APP_PRIVATE_KEY "$(cat path/to/private-key.pem)"
 ```
 
-4. Start development:
+6. Check the configuration, then start the app:
 
 ```bash
+pnpm check:github
 pnpm dev
 ```
 
 ### Connect a Repository
 
-Use the `connectRepo` mutation to onboard a GitHub repository:
+Open http://localhost:4007, sign in with GitHub and click **Install GitHub App** in the sidebar. On GitHub, choose the account and the repositories FasterGH may access. GitHub sends an installation webhook to your Convex deployment, which adds the repositories and starts their initial sync; you're redirected back to the app while that runs in the background.
 
-```bash
-pnpm exec convex run rpc/repoConnect:connectRepo '{
-  "ownerLogin": "your-username",
-  "name": "your-repo",
-  "githubRepoId": 123456789,
-  "installationId": 0
-}'
-```
+To add or remove repositories later, change the app's repository access on GitHub (**Settings → Applications → Installed GitHub Apps → Configure**). FasterGH picks up the change from the `installation_repositories` webhook.
 
-Then create a repo-level webhook pointing to your Convex deployment:
-
-```bash
-gh api --method POST /repos/<owner>/<repo>/hooks \
-  -f name=web -f active=true \
-  -f 'events[]=push' -f 'events[]=pull_request' -f 'events[]=issues' \
-  -f 'events[]=issue_comment' -f 'events[]=check_run' \
-  -f 'events[]=pull_request_review' -f 'events[]=create' -f 'events[]=delete' \
-  -f "config[url]=${CONVEX_SITE_URL}/api/github/webhook" \
-  -f 'config[content_type]=json' \
-  -f "config[secret]=${GITHUB_WEBHOOK_SECRET}"
-```
+For production hosting (Vercel, a public `SITE_URL`, deploying Convex), see [`guides/hosting-setup.md`](guides/hosting-setup.md).
 
 ## Testing
 
