@@ -2,7 +2,7 @@
 
 import { Button } from "@packages/ui/components/button";
 import { Download } from "@packages/ui/components/icons";
-import { useEffect, useState, type ComponentProps } from "react";
+import { type ComponentProps, useEffect, useState } from "react";
 import { buildGitHubAppInstallUrl } from "./github-app-install-url";
 
 const GITHUB_APP_SLUG = process.env.NEXT_PUBLIC_GITHUB_APP_SLUG ?? "";
@@ -24,16 +24,19 @@ export function InstallGitHubAppButton({
 	children,
 	...buttonProps
 }: InstallGitHubAppButtonProps) {
-	if (!GITHUB_APP_INSTALL_URL) {
-		return null;
-	}
-
 	const [installHref, setInstallHref] = useState(GITHUB_APP_INSTALL_URL);
 
 	useEffect(() => {
+		if (!GITHUB_APP_INSTALL_URL) return;
 		const returnPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-		setInstallHref(buildGitHubAppInstallUrl(GITHUB_APP_INSTALL_URL, returnPath));
+		setInstallHref(
+			buildGitHubAppInstallUrl(GITHUB_APP_INSTALL_URL, returnPath),
+		);
 	}, []);
+
+	if (!GITHUB_APP_INSTALL_URL) {
+		return null;
+	}
 
 	return (
 		<Button asChild {...buttonProps}>

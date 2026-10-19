@@ -8,7 +8,9 @@
 	"files": {
 		"includes": [
 			"**",
-			"!**/convex/_generated/**",
+			"!**/_generated/**",
+			"!packages/database/convex/betterAuth/generatedSchema.ts",
+			"!packages/database/convex/shared/generated_github_client.ts",
 			"!**/*.css",
 			"!.context/**",
 			"!**/.context/**",
@@ -85,26 +87,9 @@
 							"level": "error",
 							"options": {
 								"paths": {
-									"@packages/database": "Do not import from '@packages/database' within the 'database/' package. Use relative imports instead.",
-									"../_generated/server": "Do not import from '_generated/server' directly. Use '../client' instead for server types and functions (ActionCtx, MutationCtx, QueryCtx, internalQuery, internalMutation, internalAction, httpAction).",
-									"./_generated/server": "Do not import from '_generated/server' directly. Use './client' instead for server types and functions (ActionCtx, MutationCtx, QueryCtx, internalQuery, internalMutation, internalAction, httpAction)."
+									"@packages/database": "Do not import from '@packages/database' within the 'database/' package. Use relative imports instead."
 								}
 							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"includes": [
-				"packages/database/convex/client/**",
-				"packages/database/convex/http.ts"
-			],
-			"linter": {
-				"rules": {
-					"style": {
-						"noRestrictedImports": {
-							"level": "off"
 						}
 					}
 				}

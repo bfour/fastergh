@@ -1,4 +1,7 @@
-export function resolveSetupRedirectPath(state: string | null, requestUrl: URL) {
+export function resolveSetupRedirectPath(
+	state: string | null,
+	requestUrl: URL,
+) {
 	if (!state) return "/";
 
 	try {
