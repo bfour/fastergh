@@ -74,6 +74,16 @@ packages/
 - A [Convex](https://convex.dev) account
 - A GitHub PAT with `repo` scope (or `gh auth login`)
 
+### Telemetry
+
+Turborepo and Next.js collect anonymous usage telemetry by default. CI turns it off; to turn it off on your machine, add this to your shell profile:
+
+```bash
+export DO_NOT_TRACK=1
+export TURBO_TELEMETRY_DISABLED=1
+export NEXT_TELEMETRY_DISABLED=1
+```
+
 ### Setup
 
 1. Install dependencies:
