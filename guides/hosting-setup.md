@@ -9,7 +9,7 @@ This guide covers a production setup for FasterGH with:
 
 ## 1) Prerequisites
 
-- Bun 1.3+
+- Node.js 22+ and pnpm 10+
 - Convex account + project
 - GitHub org/user where you can create apps
 - A deployed site URL (for example `https://fastergh.yourdomain.com`)
@@ -105,29 +105,29 @@ FasterGH uses Better Auth social login with GitHub OAuth credentials.
 From repo root:
 
 ```bash
-bun install
-bun run lint
-bun run typecheck
-bun run test
+pnpm install
+pnpm run lint
+pnpm run typecheck
+pnpm run test
 ```
 
 Deploy Convex functions:
 
 ```bash
 cd packages/database
-bunx convex deploy
+pnpm exec convex deploy
 ```
 
 Set/verify Convex env vars:
 
 ```bash
-bunx convex env set GITHUB_WEBHOOK_SECRET "<value>"
-bunx convex env set CONVEX_SITE_URL "<value>"
-bunx convex env set SITE_URL "<value>"
-bunx convex env set GITHUB_CLIENT_ID "<value>"
-bunx convex env set GITHUB_CLIENT_SECRET "<value>"
-bunx convex env set GITHUB_APP_PRIVATE_KEY "<value>"
-bunx convex env list
+pnpm exec convex env set GITHUB_WEBHOOK_SECRET "<value>"
+pnpm exec convex env set CONVEX_SITE_URL "<value>"
+pnpm exec convex env set SITE_URL "<value>"
+pnpm exec convex env set GITHUB_CLIENT_ID "<value>"
+pnpm exec convex env set GITHUB_CLIENT_SECRET "<value>"
+pnpm exec convex env set GITHUB_APP_PRIVATE_KEY "<value>"
+pnpm exec convex env list
 ```
 
 ## 6) Deploy frontend (`apps/main-site`)
@@ -137,7 +137,7 @@ Recommended: Vercel with root directory `apps/main-site`.
 Build command:
 
 ```bash
-bun run build
+pnpm run build
 ```
 
 Make sure Vercel project env contains at least:
@@ -171,9 +171,9 @@ Make sure Vercel project env contains at least:
 ```bash
 cd packages/database
 # BACKEND_ACCESS_TOKEN must be set locally and in Convex env
-bunx convex run rpc/admin:queueHealth '{}'
-bunx convex run rpc/admin:systemStatus '{"adminToken":"'$BACKEND_ACCESS_TOKEN'"}'
-bunx convex run rpc/admin:tableCounts '{"adminToken":"'$BACKEND_ACCESS_TOKEN'"}'
+pnpm exec convex run rpc/admin:queueHealth '{}'
+pnpm exec convex run rpc/admin:systemStatus '{"adminToken":"'$BACKEND_ACCESS_TOKEN'"}'
+pnpm exec convex run rpc/admin:tableCounts '{"adminToken":"'$BACKEND_ACCESS_TOKEN'"}'
 ```
 
 What good looks like:
@@ -194,11 +194,11 @@ What good looks like:
 - Missing `GITHUB_APP_PRIVATE_KEY` or malformed PEM -> installation token errors
 - `SITE_URL` still set to localhost in production -> auth redirect problems
 - `GITHUB_APP_SLUG` missing in frontend env -> install button link missing
-- Skipping `bun run typecheck` because Next build ignores TS errors in this app
+- Skipping `pnpm run typecheck` because Next build ignores TS errors in this app
 
 ## 9) Ongoing operations
 
 - Watch queue health via `rpc/admin:systemStatus`.
 - Track webhook failures in GitHub App delivery logs.
 - Rotate OAuth/GitHub App secrets on a regular schedule.
-- Re-run `bun run lint && bun run typecheck && bun run test` before each release.
+- Re-run `pnpm run lint && pnpm run typecheck && pnpm run test` before each release.

@@ -12,16 +12,16 @@ Local guide for autonomous agents working in `apps/main-site`.
 
 Run from `apps/main-site` unless noted.
 
-- Install deps (repo root): `bun install`
-- Dev server: `bun run dev`
-- Build: `bun run build`
-- Typecheck (fast): `bun run typecheck`
-- Typecheck (slow): `bun run typecheck:slow`
-- Test all in this app: `bun run test`
-- Single test file: `bun run test src/app/(main-site)/_components/search-command-dsl.test.ts`
-- Single test by name: `bun run test -t "parses provider, target, and author"`
-- Lint (repo root): `bun run lint`
-- Lint fix (repo root): `bun run lint:fix`
+- Install deps (repo root): `pnpm install`
+- Dev server: `pnpm run dev`
+- Build: `pnpm run build`
+- Typecheck (fast): `pnpm run typecheck`
+- Typecheck (slow): `pnpm run typecheck:slow`
+- Test all in this app: `pnpm run test`
+- Single test file: `pnpm run test src/app/(main-site)/_components/search-command-dsl.test.ts`
+- Single test by name: `pnpm run test -t "parses provider, target, and author"`
+- Lint (repo root): `pnpm run lint`
+- Lint fix (repo root): `pnpm run lint:fix`
 
 ## Code style and architecture
 

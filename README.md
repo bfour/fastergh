@@ -70,7 +70,7 @@ packages/
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) >= 1.0
+- [Node.js](https://nodejs.org) >= 22 and [pnpm](https://pnpm.io) 10 (`corepack enable`)
 - A [Convex](https://convex.dev) account
 - A GitHub PAT with `repo` scope (or `gh auth login`)
 
@@ -79,7 +79,7 @@ packages/
 1. Install dependencies:
 
 ```bash
-bun install
+pnpm install
 ```
 
 2. Configure environment:
@@ -94,14 +94,14 @@ cp .env.example .env
 
 ```bash
 cd packages/database
-bunx convex env set GITHUB_PAT "$(gh auth token)"
-bunx convex env set GITHUB_WEBHOOK_SECRET "<your-webhook-secret>"
+pnpm exec convex env set GITHUB_PAT "$(gh auth token)"
+pnpm exec convex env set GITHUB_WEBHOOK_SECRET "<your-webhook-secret>"
 ```
 
 4. Start development:
 
 ```bash
-bun dev
+pnpm dev
 ```
 
 ### Connect a Repository
@@ -109,7 +109,7 @@ bun dev
 Use the `connectRepo` mutation to onboard a GitHub repository:
 
 ```bash
-bunx convex run rpc/repoConnect:connectRepo '{
+pnpm exec convex run rpc/repoConnect:connectRepo '{
   "ownerLogin": "your-username",
   "name": "your-repo",
   "githubRepoId": 123456789,
@@ -136,11 +136,11 @@ Tests use `@packages/convex-test` with `@effect/vitest`:
 
 ```bash
 # Run all tests
-cd packages/database && bunx vitest run --no-watch --pool=forks
+cd packages/database && pnpm exec vitest run --no-watch --pool=forks
 
 # Run specific test suites
-bunx vitest run --no-watch --pool=forks githubMirror    # 52 integration tests
-bunx vitest run --no-watch --pool=forks smokeOnboarding # Full onboarding smoke test
+pnpm exec vitest run --no-watch --pool=forks githubMirror    # 52 integration tests
+pnpm exec vitest run --no-watch --pool=forks smokeOnboarding # Full onboarding smoke test
 ```
 
 ### Test Coverage
@@ -152,11 +152,11 @@ bunx vitest run --no-watch --pool=forks smokeOnboarding # Full onboarding smoke 
 ## Scripts
 
 ```bash
-bun dev          # Start all apps in development
-bun build        # Build all packages
-bun typecheck    # Type check all packages (uses TypeScript Go)
-bun lint         # Lint with Biome
-bun lint:fix     # Fix lint issues
+pnpm dev          # Start all apps in development
+pnpm build        # Build all packages
+pnpm typecheck    # Type check all packages (uses TypeScript Go)
+pnpm lint         # Lint with Biome
+pnpm lint:fix     # Fix lint issues
 ```
 
 ## License

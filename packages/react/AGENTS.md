@@ -12,9 +12,9 @@ Local guide for autonomous agents working in `packages/react`.
 
 Run from `packages/react` unless noted.
 
-- Typecheck: `bun run typecheck`
-- Lint (repo root): `bun run lint`
-- Build (repo root): `bun run build`
+- Typecheck: `pnpm run typecheck`
+- Lint (repo root): `pnpm run lint`
+- Build (repo root): `pnpm run build`
 
 This package currently has no local `test` script.
 When adding tests, use Vitest and keep command patterns consistent with other packages.

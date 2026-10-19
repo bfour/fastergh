@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S pnpm exec tsx
 
 /**
  * Verify GitHub App configuration for FasterGH.
@@ -11,14 +11,19 @@
  * 5. GitHub App private key format is valid (if set)
  *
  * Usage:
- *   bun scripts/check-github-config.ts
+ *   pnpm check:github
  */
 
+import { execFile } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { $ } from "bun";
+import { promisify } from "node:util";
 
-const ROOT = join(import.meta.dir, "..");
+const execFileAsync = promisify(execFile);
+const run = async (file: string, args: Array<string>, cwd?: string) =>
+	(await execFileAsync(file, args, { cwd })).stdout;
+
+const ROOT = join(import.meta.dirname, "..");
 const DATABASE_DIR = join(ROOT, "packages/database");
 
 // ---------------------------------------------------------------------------
@@ -88,14 +93,18 @@ const parseEnvFile = (path: string): Map<string, string> => {
 const getConvexEnvVars = async (): Promise<Map<string, string>> => {
 	const vars = new Map<string, string>();
 	try {
-		const result = await $`bunx convex env list`.cwd(DATABASE_DIR).text();
+		const result = await run(
+			"pnpm",
+			["exec", "convex", "env", "list"],
+			DATABASE_DIR,
+		);
 		for (const line of result.split("\n")) {
 			const eqIdx = line.indexOf("=");
 			if (eqIdx === -1) continue;
 			vars.set(line.slice(0, eqIdx), line.slice(eqIdx + 1));
 		}
 	} catch {
-		fail("Could not fetch Convex env vars (is `bunx convex` configured?)");
+		fail("Could not fetch Convex env vars (is `pnpm exec convex` configured?)");
 		failures++;
 	}
 	return vars;
@@ -107,8 +116,12 @@ const getConvexEnvVars = async (): Promise<Map<string, string>> => {
 
 const checkGitHubApp = async (slug: string) => {
 	try {
-		const result =
-			await $`gh api /apps/${slug} --jq '.name,.id,.client_id,.slug,.html_url'`.text();
+		const result = await run("gh", [
+			"api",
+			`/apps/${slug}`,
+			"--jq",
+			".name,.id,.client_id,.slug,.html_url",
+		]);
 		const lines = result.trim().split("\n");
 		if (lines.length >= 5) {
 			pass(
@@ -132,8 +145,12 @@ const checkGitHubApp = async (slug: string) => {
 
 const checkGitHubAppInstallations = async (slug: string) => {
 	try {
-		const result =
-			await $`gh api /user/installations --jq '.installations[] | select(.app_slug == "${slug}") | "\(.id) \(.account.login) \(.account.type)"'`.text();
+		const result = await run("gh", [
+			"api",
+			"/user/installations",
+			"--jq",
+			`.installations[] | select(.app_slug == "${slug}") | "\\(.id) \\(.account.login) \\(.account.type)"`,
+		]);
 		const lines = result.trim().split("\n").filter(Boolean);
 		if (lines.length > 0) {
 			pass(`Found ${lines.length} installation(s):`);

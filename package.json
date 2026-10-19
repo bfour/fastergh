@@ -2,13 +2,14 @@
 	"name": "convex-monorepo",
 	"license": "MIT",
 	"private": true,
+	"type": "module",
 	"scripts": {
-		"i": "bun install",
-		"setup:context": "bun scripts/setup-context.ts",
-		"ci": "bun run lint && bun run typecheck && bun run test",
+		"i": "pnpm install",
+		"setup:context": "tsx scripts/setup-context.ts",
+		"ci": "pnpm run lint && pnpm run typecheck && pnpm run test",
 		"dev": "turbo run dev",
 		"dev:web": "turbo run dev --filter=@packages/main-site",
-		"dev:with:dbs": "bun scripts/start-dbs.ts && turbo run dev",
+		"dev:with:dbs": "tsx scripts/start-dbs.ts && turbo run dev",
 		"build": "turbo run build",
 		"typecheck": "turbo run typecheck --filter='!@packages/convex-test'",
 		"typecheck:slow": "turbo run typecheck:slow --filter='!@packages/convex-test'",
@@ -22,83 +23,37 @@
 		"fix:unsafe": "biome check . --write --unsafe",
 		"clean": "turbo run clean && rm -rf node_modules .turbo",
 		"format": "biome format --write .",
-		"knip": "bunx knip",
+		"knip": "pnpm dlx knip",
 		"prepare": "husky",
 		"env:pull:prod": "vercel env pull .env.production --environment production",
-		"otel:process:console": "bun scripts/otel-console-span-processor.ts",
+		"otel:process:console": "tsx scripts/otel-console-span-processor.ts",
 		"test:otel:e2e": "turbo run test --filter='@packages/confect' --filter='@packages/database' --filter='@packages/ui' --filter='@packages/observability'",
-		"test:otel:convex:dev": "bun run test:otel:convex:local",
-		"test:otel:convex:local": "bun scripts/otel-convex-dev-smoke.ts",
-		"check:github": "bun scripts/check-github-config.ts"
+		"test:otel:convex:dev": "pnpm run test:otel:convex:local",
+		"test:otel:convex:local": "tsx scripts/otel-convex-dev-smoke.ts",
+		"check:github": "tsx scripts/check-github-config.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.4",
 		"@packages/observability": "workspace:*",
-		"@typescript/native-preview": "^7.0.0-dev.20260102.1",
-		"convex": "^1.32.0",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.6",
-		"puppeteer-core": "^24.37.4",
-		"turbo": "^2.6.1",
+		"@typescript/native-preview": "7.0.0-dev.20260102.1",
+		"convex": "1.32.0",
+		"husky": "9.1.7",
+		"lint-staged": "16.2.7",
+		"puppeteer-core": "24.37.4",
+		"tsx": "4.23.15",
+		"turbo": "2.7.2",
 		"typescript": "catalog:"
 	},
 	"engines": {
-		"node": ">=18.0.0"
+		"node": ">=20.11.0"
 	},
-	"workspaces": {
-		"packages": [
-			"apps/*",
-			"packages/*"
-		],
-		"catalog": {
-			"effect": "^3.19.8",
-			"@effect/platform": "^0.93.6",
-			"@effect/rpc": "^0.72.2",
-			"@effect/vitest": "^0.27.0",
-			"@effect-atom/atom": "^0.4.11",
-			"@effect-atom/atom-react": "^0.4.4",
-			"convex": "^1.32.0",
-			"better-auth": "^1.4.7",
-			"@convex-dev/better-auth": "^0.10.6",
-			"react": "^19.1.1",
-			"react-dom": "^19.1.1",
-			"next": "^16.1.6",
-			"vitest": "^3.2.4",
-			"tailwindcss": "^4.1.11",
-			"@tailwindcss/postcss": "^4.1.11",
-			"typescript": "^5.9.2",
-			"nuqs": "2.7.3",
-			"@edge-runtime/vm": "^5.0.0",
-			"@types/node": "^20.19.9",
-			"@types/react": "^19.1.9",
-			"@types/react-dom": "^19.1.7",
-			"lucide-react": "^0.553.0",
-			"postcss": "^8.5.3",
-			"zod": "^3.25.76"
-		}
-	},
-	"packageManager": "bun@1.3.3",
-	"patchedDependencies": {
-		"convex-helpers@0.1.104": "patches/convex-helpers@0.1.104.patch",
-		"@convex-dev/better-auth@0.10.9": "patches/@convex-dev%2Fbetter-auth@0.10.9.patch"
-	},
-	"overrides": {
-		"@modelcontextprotocol/sdk": "1.17.5",
-		"import-in-the-middle": "^2.0.0",
-		"require-in-the-middle": "^8.0.1",
-		"minimatch": "^10.2.2",
-		"path-to-regexp": "^6.3.0",
-		"hono": "^4.12.0",
-		"cookie": "^0.7.2",
-		"effect": "^3.19.8",
-		"@effect/platform": "^0.93.6"
-	},
+	"packageManager": "pnpm@10.28.0",
 	"lint-staged": {
 		"*": [
 			"biome check --write"
 		]
 	},
 	"dependencies": {
-		"@pierre/diffs": "^1.0.11"
+		"@pierre/diffs": "1.0.11"
 	}
 }

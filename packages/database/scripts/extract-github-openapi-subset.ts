@@ -3,7 +3,7 @@
  * we actually use. Recursively resolves $ref dependencies to include all
  * required schema definitions.
  *
- * Usage: bun run scripts/extract-github-openapi-subset.ts
+ * Usage: pnpm exec tsx scripts/extract-github-openapi-subset.ts
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";

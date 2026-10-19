@@ -12,14 +12,14 @@ Local guide for autonomous agents working in `packages/ui`.
 
 Run from `packages/ui` unless noted.
 
-- Typecheck (fast): `bun run typecheck`
-- Typecheck (slow): `bun run typecheck:slow`
-- Test all: `bun run test`
-- Watch tests: `bun run test:watch`
-- Single test file: `bun run test src/components/command.test.tsx`
-- Single test by name: `bun run test -t "test name"`
-- Root-filtered run (from repo root): `bun --filter @packages/ui run test src/components/command.test.tsx`
-- Lint (repo root): `bun run lint`
+- Typecheck (fast): `pnpm run typecheck`
+- Typecheck (slow): `pnpm run typecheck:slow`
+- Test all: `pnpm run test`
+- Watch tests: `pnpm run test:watch`
+- Single test file: `pnpm run test src/components/command.test.tsx`
+- Single test by name: `pnpm run test -t "test name"`
+- Root-filtered run (from repo root): `pnpm --filter @packages/ui run test src/components/command.test.tsx`
+- Lint (repo root): `pnpm run lint`
 
 ## UI conventions
 

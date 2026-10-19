@@ -58,5 +58,5 @@ personal-notes/
 .next-production/
 .next*
 
-# Local development context repos (cloned via `bun run setup:context`)
+# Local development context repos (cloned via `pnpm run setup:context`)
 .context/

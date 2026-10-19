@@ -324,7 +324,7 @@ Write ongoing notes to `personal-notes/` as you work.
 
 ## Stack and Code Constraints
 
-- Use `bun` for package scripts/commands.
+- Use `pnpm` for package scripts/commands.
 - Use Effect services/layers and tagged errors.
 - Keep using Confect patterns for typed Convex RPC modules.
 - Do not use TypeScript `any`, `unknown`, or type assertions.
@@ -662,11 +662,11 @@ Backfill guidance:
 
 Run from `packages/database` unless required otherwise.
 
-- local dev: `bun run --filter @packages/database dev`
-- codegen: `bun run --filter @packages/database codegen`
-- deploy: `bun run --filter @packages/database deploy`
-- run function: `bunx convex run <functionRef> '<jsonArgs>'`
-- logs: `bunx convex logs`
+- local dev: `pnpm run --filter @packages/database dev`
+- codegen: `pnpm run --filter @packages/database codegen`
+- deploy: `pnpm run --filter @packages/database deploy`
+- run function: `pnpm exec convex run <functionRef> '<jsonArgs>'`
+- logs: `pnpm exec convex logs`
 
 After each sync slice:
 
@@ -704,7 +704,7 @@ Examples of when to update Confect:
 - If `ConfectQueryInitializer` doesn't support a Convex feature you need (e.g. `.filter()` with typed builders), add it.
 - If the schema definition doesn't handle a Convex validator pattern, extend `schema.ts` or `validators.ts`.
 
-After updating Confect, make sure existing tests still pass (`bun run test` from `packages/confect/`).
+After updating Confect, make sure existing tests still pass (`pnpm run test` from `packages/confect/`).
 
 ## Testing Requirements
 
@@ -734,7 +734,7 @@ Implement in this sequence:
    - Init git repo, make initial commit of clean state
    - Generate `GITHUB_WEBHOOK_SECRET` and add to `.env` and `.env.example`
    - Create public test repo `RhysSullivan/fastergh-test` via `gh repo create`
-   - Verify `bun install` and `bun typecheck` pass on clean state
+   - Verify `pnpm install` and `pnpm typecheck` pass on clean state
 1. Control + ingestion schema (all tables via Confect `defineTable`).
 2. Webhook HTTP endpoint and HMAC-SHA256 signature verification.
 3. Repository connect flow + bootstrap backfill (repo metadata, branches, recent commits).
@@ -742,7 +742,7 @@ Implement in this sequence:
 5. Commit/branch/check-run sync (webhook handlers + backfill).
 6. Projection builders (view tables updated on domain table writes).
 7. UI pages wired to projections (public, no auth).
-   - Use `@pierre/diffs` (`bun i @pierre/diffs`) for rendering diffs in PR views.
+   - Use `@pierre/diffs` (`pnpm add @pierre/diffs`) for rendering diffs in PR views.
    - Frontend should be buildable through tests first — projection queries validated via `@packages/convex-test` before wiring UI components.
 8. Replay/reconcile/dead-letter operations.
 
@@ -800,7 +800,7 @@ Completed:
   - Rewrote admin.ts with healthCheck query
   - Updated main-site with FasterGH placeholder
   - Cleaned tsconfig.json, knip.json, biome.json of stale references
-  - bun typecheck passes (5/5 packages)
+  - pnpm typecheck passes (5/5 packages)
   - GITHUB_WEBHOOK_SECRET generated and in .env
   - Test repo RhysSullivan/fastergh-test exists on GitHub
 In Progress:
@@ -810,12 +810,12 @@ Next Step:
   - Build Slice 2: Webhook HTTP endpoint with HMAC-SHA256 signature verification
   - Build Slice 3: Repository connect flow + bootstrap backfill
 Next Command:
-  - bunx convex dev (from packages/database) to validate schema
+  - pnpm exec convex dev (from packages/database) to validate schema
 Blockers/Risks:
   - Schema.Array produces readonly T[] which conflicts with Convex GenericDataModel mutable Value[].
     This only matters for generic type constraints (betterAuth shared module, now deleted).
     Confect's schemaToValidator correctly converts Schema.Array to v.array() at runtime.
-  - LSP still shows phantom errors on deleted files (stale cache). bun typecheck is source of truth.
+  - LSP still shows phantom errors on deleted files (stale cache). pnpm typecheck is source of truth.
 ```
 
 ### Session: 2026-02-18 (continued)
@@ -868,13 +868,13 @@ In Progress:
   - Need to deploy to Convex to regenerate _generated/api.d.ts
   - Need to test connectRepo + bootstrapRepo end-to-end with RhysSullivan/fastergh-test
 Next Step:
-  - Deploy to Convex (bunx convex deploy from packages/database)
+  - Deploy to Convex (pnpm exec convex deploy from packages/database)
   - Call connectRepo manually with fastergh-test repo metadata
   - Verify bootstrap action runs and populates domain tables
   - Create repo-level webhook on fastergh-test via gh api
   - Begin Slice 4: webhook handlers for PR/issue/comment events
 Next Command:
-  - bunx convex deploy (from packages/database)
+  - pnpm exec convex deploy (from packages/database)
 Blockers/Risks:
   - GITHUB_PAT must be set as Convex environment variable for bootstrap action to work (it reads process.env.GITHUB_PAT in action runtime)
   - _generated/api.d.ts still stale until deploy/codegen
@@ -936,7 +936,7 @@ Next Step:
   - E2E validate webhook→process→normalized tables pipeline
   - Then proceed to Slice 5 (commit/branch/check-run sync)
 Blockers/Risks:
-  - LSP shows phantom errors on deleted files (guestbook.ts, benchmark.ts, betterAuth.ts) — bun typecheck is source of truth
+  - LSP shows phantom errors on deleted files (guestbook.ts, benchmark.ts, betterAuth.ts) — pnpm typecheck is source of truth
 ```
 
 ### Session 6 — 2026-02-18: Slices 4-6 complete (commits fe56c87, 96fa9cb, c315912)

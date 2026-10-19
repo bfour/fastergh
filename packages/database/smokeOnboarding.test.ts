@@ -4,7 +4,7 @@
  * Validates the full pipeline from repo connection through webhook processing
  * to projection queries — all via convex-test (no real GitHub API needed).
  *
- * Run: cd packages/database && bunx vitest run --no-watch --pool=forks smokeOnboarding
+ * Run: cd packages/database && pnpm exec vitest run --no-watch --pool=forks smokeOnboarding
  */
 
 import { describe, expect, it } from "@effect/vitest";

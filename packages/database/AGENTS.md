@@ -12,17 +12,17 @@ Local guide for autonomous agents working in `packages/database`.
 
 Run from `packages/database` unless noted.
 
-- Convex dev: `bun run dev`
-- Codegen: `bun run codegen`
-- Deploy (prod env): `bun run deploy`
-- Typecheck (fast): `bun run typecheck`
-- Typecheck (slow): `bun run typecheck:slow`
-- Test all: `bun run test`
-- Watch tests: `bun run test:watch`
-- Single test file: `bun run test githubMirror.test.ts`
-- Single test by name: `bun run test -t "test name"`
-- Root-filtered run (from repo root): `bun --filter @packages/database run test githubMirror.test.ts`
-- Lint (repo root): `bun run lint`
+- Convex dev: `pnpm run dev`
+- Codegen: `pnpm run codegen`
+- Deploy (prod env): `pnpm run deploy`
+- Typecheck (fast): `pnpm run typecheck`
+- Typecheck (slow): `pnpm run typecheck:slow`
+- Test all: `pnpm run test`
+- Watch tests: `pnpm run test:watch`
+- Single test file: `pnpm run test githubMirror.test.ts`
+- Single test by name: `pnpm run test -t "test name"`
+- Root-filtered run (from repo root): `pnpm --filter @packages/database run test githubMirror.test.ts`
+- Lint (repo root): `pnpm run lint`
 
 ## Convex and Confect rules
 

@@ -1,1 +1,1 @@
-bunx lint-staged || true
+pnpm exec lint-staged || true

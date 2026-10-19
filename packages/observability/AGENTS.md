@@ -12,13 +12,13 @@ Local guide for autonomous agents working in `packages/observability`.
 
 Run from `packages/observability` unless noted.
 
-- Test all: `bun run test`
-- Watch tests: `bun run test:watch`
-- Single test file: `bun run test src/json-exporter.test.ts`
-- Single test by name: `bun run test -t "test name"`
-- Root-filtered run (from repo root): `bun --filter @packages/observability run test src/json-exporter.test.ts`
-- Lint (repo root): `bun run lint`
-- Typecheck (repo root): `bun run typecheck`
+- Test all: `pnpm run test`
+- Watch tests: `pnpm run test:watch`
+- Single test file: `pnpm run test src/json-exporter.test.ts`
+- Single test by name: `pnpm run test -t "test name"`
+- Root-filtered run (from repo root): `pnpm --filter @packages/observability run test src/json-exporter.test.ts`
+- Lint (repo root): `pnpm run lint`
+- Typecheck (repo root): `pnpm run typecheck`
 
 ## Code style
 

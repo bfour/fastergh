@@ -15,18 +15,18 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@effect/opentelemetry": "^0.59.0",
+		"@effect/opentelemetry": "0.59.3",
 		"@effect/platform": "catalog:",
-		"@opentelemetry/context-async-hooks": "^2.2.0",
-		"@opentelemetry/core": "^1.30.0",
-		"@opentelemetry/exporter-trace-otlp-http": "^0.208.0",
+		"@opentelemetry/context-async-hooks": "2.2.0",
+		"@opentelemetry/core": "1.30.1",
+		"@opentelemetry/exporter-trace-otlp-http": "0.208.0",
 		"@opentelemetry/otlp-transformer": "0.208.0",
-		"@opentelemetry/sdk-node": "^0.208.0",
-		"@opentelemetry/sdk-trace-base": "^2.2.0",
-		"@opentelemetry/sdk-trace-node": "^2.2.0",
-		"@opentelemetry/sdk-trace-web": "^2.2.0",
-		"@sentry/node": "^10.30.0",
-		"@sentry/opentelemetry": "^10.30.0",
+		"@opentelemetry/sdk-node": "0.208.0",
+		"@opentelemetry/sdk-trace-base": "2.2.0",
+		"@opentelemetry/sdk-trace-node": "2.2.0",
+		"@opentelemetry/sdk-trace-web": "2.2.0",
+		"@sentry/node": "10.32.1",
+		"@sentry/opentelemetry": "10.32.1",
 		"effect": "catalog:"
 	},
 	"devDependencies": {

@@ -1,0 +1,55 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalog:
+  effect: 3.19.13
+  '@effect/platform': 0.93.8
+  '@effect/rpc': 0.72.2
+  '@effect/vitest': 0.27.0
+  '@effect-atom/atom': 0.4.11
+  '@effect-atom/atom-react': 0.4.4
+  convex: 1.32.0
+  better-auth: 1.4.9
+  '@convex-dev/better-auth': 0.10.9
+  react: 19.2.3
+  react-dom: 19.2.3
+  next: 16.1.6
+  vitest: 3.2.4
+  tailwindcss: 4.1.18
+  '@tailwindcss/postcss': 4.1.18
+  typescript: 5.9.3
+  nuqs: 2.7.3
+  '@edge-runtime/vm': 5.0.0
+  '@types/node': 20.19.27
+  '@types/react': 19.2.7
+  '@types/react-dom': 19.2.3
+  lucide-react: 0.553.0
+  postcss: 8.5.6
+  zod: 3.25.76
+
+overrides:
+  '@modelcontextprotocol/sdk': 1.17.5
+  import-in-the-middle: 2.0.1
+  require-in-the-middle: 8.0.1
+  minimatch: 10.2.2
+  path-to-regexp: 6.3.0
+  hono: 4.12.0
+  cookie: 0.7.2
+  effect: 3.19.13
+  '@effect/platform': 0.93.8
+
+patchedDependencies:
+  '@convex-dev/better-auth@0.10.9': patches/@convex-dev__better-auth@0.10.9.patch
+
+saveExact: true
+
+onlyBuiltDependencies:
+  - '@sentry/cli'
+  - esbuild
+  - msgpackr-extract
+  - protobufjs
+  - sharp
+
+ignoredBuiltDependencies:
+  - core-js

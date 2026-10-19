@@ -12,16 +12,16 @@ Local guide for autonomous agents working in `packages/convex-test`.
 
 Run from `packages/convex-test` unless noted.
 
-- Typecheck: `bun run typecheck`
-- Test all: `bun run test`
-- Watch tests: `bun run test:watch`
-- Run once alias: `bun run test:once`
-- Single test file: `bun run test convex/actions.test.ts`
-- Single test by name: `bun run test -t "test name"`
-- Debug tests: `bun run test:debug`
-- Coverage: `bun run test:coverage`
-- Root-filtered run (from repo root): `bun --filter @packages/convex-test run test convex/actions.test.ts`
-- Lint (repo root): `bun run lint`
+- Typecheck: `pnpm run typecheck`
+- Test all: `pnpm run test`
+- Watch tests: `pnpm run test:watch`
+- Run once alias: `pnpm run test:once`
+- Single test file: `pnpm run test convex/actions.test.ts`
+- Single test by name: `pnpm run test -t "test name"`
+- Debug tests: `pnpm run test:debug`
+- Coverage: `pnpm run test:coverage`
+- Root-filtered run (from repo root): `pnpm --filter @packages/convex-test run test convex/actions.test.ts`
+- Lint (repo root): `pnpm run lint`
 
 ## Code style
 

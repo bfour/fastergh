@@ -12,9 +12,9 @@ Local guide for autonomous agents working in `packages/typescript-config`.
 
 Run from `packages/typescript-config` unless noted.
 
-- Typecheck: `bun run typecheck` (currently a placeholder script)
-- Lint (repo root): `bun run lint`
-- Build (repo root): `bun run build`
+- Typecheck: `pnpm run typecheck` (currently a placeholder script)
+- Lint (repo root): `pnpm run lint`
+- Build (repo root): `pnpm run build`
 
 This package currently has no local test script.
 If tests are added, prefer Vitest and document single-file invocation.
@@ -24,7 +24,7 @@ If tests are added, prefer Vitest and document single-file invocation.
 - Formatting/linting are governed by root `biome.json`.
 - Keep config exports small, explicit, and well-named.
 - Prefer strict defaults and avoid surprising compiler behavior.
-- Use Bun workflows only.
+- Use pnpm workflows only.
 
 ## Rule sources to honor
 
