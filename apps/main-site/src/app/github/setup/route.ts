@@ -12,7 +12,10 @@ export async function GET(request: Request) {
 	const url = new URL(request.url);
 	const installationId = url.searchParams.get("installation_id");
 	const setupAction = url.searchParams.get("setup_action");
-	const redirectPath = resolveSetupRedirectPath(url.searchParams.get("state"), url);
+	const redirectPath = resolveSetupRedirectPath(
+		url.searchParams.get("state"),
+		url,
+	);
 
 	if (!installationId || !setupAction) {
 		return NextResponse.redirect(new URL("/", request.url));
